@@ -11,6 +11,11 @@
 
 #import "LFCGzipUtility.h"
 
+//This is an optimization that goes through the nodes and marks all offscreen nodes as .hidden
+//significant improvement for larger maps
+//Works on scaled maps, but doesn't handle rotated maps
+
+#define CullNodes 1
 
 enum
 {
@@ -180,6 +185,8 @@ typedef enum
 
 // xml tile gids
 @property (strong, nonatomic) NSMutableArray* gidData;
+
+@property (assign, nonatomic) BOOL cullNodes;
 
 + (JSTileMap*)mapNamed:(NSString*)mapName;
 + (JSTileMap*)mapNamed:(NSString*)mapName withBaseZPosition:(CGFloat)baseZPosition andZOrderModifier:(CGFloat)zOrderModifier;

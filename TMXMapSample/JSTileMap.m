@@ -305,7 +305,7 @@
 -(NSInteger)tileGidAtCoord:(CGPoint)coord
 {
 	NSInteger idx = coord.x + coord.y * _layerGridSize.width;
-	
+
 	NSAssert(idx < (_layerGridSize.width * _layerGridSize.height), @"index out of bounds!");
 	
 	return _tiles[ idx ];
@@ -596,7 +596,10 @@
 
 - (CGRect)visibleTileCoordsInSceneAtPosition:(CGPoint)position
 {
-    if (!self.scene) return CGRectZero;
+    if (!self.scene) {
+        self.cullNodes = NO;
+        return CGRectZero;
+    }
     CGPoint layerPosition = [self convertPoint:position toNode:self.scene];
     CGSize screenSize = self.scene.size;
     CGRect screenRect = CGRectMake(-layerPosition.x, -layerPosition.y, screenSize.width, screenSize.height);
@@ -627,7 +630,7 @@
     }
 }
 
-- (int)tileGIDForCullingAtCoord:(CGPoint)coord inLayer:(TMXLayerInfo *)layerInfo
+- (NSInteger)tileGIDForCullingAtCoord:(CGPoint)coord inLayer:(TMXLayerInfo *)layerInfo
 {
     if (coord.x < 0) {
         coord.x = 0;

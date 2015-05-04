@@ -32,9 +32,15 @@
 
 		// instructions
 		SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"Arial"];
-		label.text = @"Double-tap to change maps.";
 		label.fontSize = 18;
+
+#if TARGET_OSX
+		label.text = @"click to change maps.";
+		label.fontColor = [NSColor yellowColor];
+#else
+		label.text = @"Double-tap to change maps.";
 		label.fontColor = [UIColor yellowColor];
+#endif
 		label.alpha = 0;
 		[self addChild:label];
 		id seq = [SKAction sequence:@[[SKAction waitForDuration:1.0],
@@ -54,6 +60,18 @@
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 }
+
+
+#if TARGET_OSX
+
+-(void)mouseDown:(NSEvent *)theEvent {
+	/* Called when a mouse click occurs */
+    
+	[self swapToNextMap];
+}
+
+#endif
+
 
 
 - (void) loadTileMap:(NSString*)tileMap
